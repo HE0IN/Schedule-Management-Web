@@ -1,6 +1,17 @@
-/* 파일이 아닌 '카드'이면서, 1번 색상(기본 회색)이 지정된 경우만 투명화 */
-.canvas-node:not(.is-file).mod-canvas-color-1 .canvas-node-container {
+/* 6번 색상(보라색) 카드의 모든 배경 요소 제거 */
+.canvas-node:not(.is-file).mod-canvas-color-6 {
+    --canvas-color: transparent !important;
+    --background-primary: transparent !important;
+    --background-secondary: transparent !important;
     background-color: transparent !important;
     border: none !important;
     box-shadow: none !important;
+}
+
+/* 내부 컨테이너와 마크다운 영역까지 투명화 */
+.canvas-node:not(.is-file).mod-canvas-color-6 .canvas-node-container,
+.canvas-node:not(.is-file).mod-canvas-color-6 .canvas-node-content-block,
+.canvas-node:not(.is-file).mod-canvas-color-6 .canvas-node-content {
+    background-color: transparent !important;
+    border: none !important;
 }
