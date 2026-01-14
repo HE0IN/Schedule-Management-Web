@@ -1,9 +1,3 @@
-/* 첫 번째 색상(빨간색) 카드 내의 제목들(H1, H2, H3) 여백 설정 */
-.canvas-node:not(.is-file).mod-canvas-color-1 .canvas-node-content h1,
-.canvas-node:not(.is-file).mod-canvas-color-1 .canvas-node-content h2,
-.canvas-node:not(.is-file).mod-canvas-color-1 .canvas-node-content h3 {
-    margin-top: 40px !important;    /* 제목 위쪽 간격 (숫자가 클수록 위와 멀어짐) */
-    margin-bottom: 20px !important; /* 제목 아래쪽 간격 */
-    line-height: 1.5 !important;    /* 제목 자체의 줄 간격 */
-    display: block !important;
+.canvas-node:not(.is-file):not([class*="mod-canvas-color-"]) .canvas-node-content > :first-child {
+    margin-top: 0 !important;
 }
