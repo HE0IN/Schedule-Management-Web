@@ -1,6 +1,6 @@
-/* 캔버스의 첫 번째 색상(기본 회색)을 투명하게 설정 */
-.canvas-wrapper .canvas-node.is-themed.mod-canvas-color-1 .canvas-node-container {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
+/* 파일이 아닌 '카드'이면서, 1번 색상(기본 회색)이 지정된 경우만 투명화 */
+.canvas-node:not(.is-file).mod-canvas-color-1 .canvas-node-container {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
