@@ -1,17 +1,9 @@
-/* 6번 색상(보라색) 카드의 모든 배경 요소 제거 */
-.canvas-node:not(.is-file).mod-canvas-color-6 {
-    --canvas-color: transparent !important;
-    --background-primary: transparent !important;
-    --background-secondary: transparent !important;
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-
-/* 내부 컨테이너와 마크다운 영역까지 투명화 */
-.canvas-node:not(.is-file).mod-canvas-color-6 .canvas-node-container,
-.canvas-node:not(.is-file).mod-canvas-color-6 .canvas-node-content-block,
-.canvas-node:not(.is-file).mod-canvas-color-6 .canvas-node-content {
-    background-color: transparent !important;
-    border: none !important;
+/* 첫 번째 색상(빨간색) 카드 내의 제목들(H1, H2, H3) 여백 설정 */
+.canvas-node:not(.is-file).mod-canvas-color-1 .canvas-node-content h1,
+.canvas-node:not(.is-file).mod-canvas-color-1 .canvas-node-content h2,
+.canvas-node:not(.is-file).mod-canvas-color-1 .canvas-node-content h3 {
+    margin-top: 40px !important;    /* 제목 위쪽 간격 (숫자가 클수록 위와 멀어짐) */
+    margin-bottom: 20px !important; /* 제목 아래쪽 간격 */
+    line-height: 1.5 !important;    /* 제목 자체의 줄 간격 */
+    display: block !important;
 }
