@@ -1,93 +1,14 @@
-Streamlit URL 공유 기본 원리
-핵심: st.query_params
-URL의 ? 뒤에 오는 파라미터를 읽고 쓸 수 있는 기능입니다.
-https://your-app.com/?type=mssql&db=sales&table=orders
-                      └──────────────────────────────┘
-                            st.query_params로 제어
+<span style="color:blue; font-weight: bold; margin-top 0px; display:inline-block; vertical-align : top;"> ※ 쉘 스크립트 : 운영체제 명령어를 순차적으로 기록한 파일로, 일관성 있는 서버 배포 및 환경 설정을 보장하는 표준 자동화 도구</span>
 
-기본 사용법
-1. 읽기 (URL → Python)
-python# URL: ?type=mssql&db=sales&table=orders
+/* 1. 기본 회색 카드 내의 제목(H1~H3) 간격 넓히기 */
+.canvas-node-content h3 {
+  margin-top: 1px !important; /* 제목 위쪽 간격 */
+  margin-bottom: 1px !important;
+  padding-bottom: 1px !important;
+  padding-top: 1px !important;
+}
 
-db_type = st.query_params.get("type")    # "mssql"
-database = st.query_params.get("db")     # "sales"
-table = st.query_params.get("table")     # "orders"
-없는키 = st.query_params.get("foo")      # None
-2. 쓰기 (Python → URL)
-python# 개별 설정
-st.query_params["type"] = "mssql"
-st.query_params["db"] = "sales"
-
-# 한번에 설정 (기존 파라미터 전부 교체)
-st.query_params.from_dict({
-    "type": "mssql",
-    "db": "sales",
-    "table": "orders"
-})
-# → URL이 ?type=mssql&db=sales&table=orders 로 변경됨
-3. 삭제
-python# 특정 키 삭제
-del st.query_params["table"]
-
-# 전체 삭제
-st.query_params.clear()
-```
-
----
-
-### 동작 원리
-```
-┌─────────────────────────────────────────────────────┐
-│  사용자가 selectbox에서 테이블 선택                   │
-└─────────────────────┬───────────────────────────────┘
-                      ▼
-┌─────────────────────────────────────────────────────┐
-│  st.query_params["table"] = "orders"                │
-│  또는                                               │
-│  st.query_params.from_dict({"table": "orders"})    │
-└─────────────────────┬───────────────────────────────┘
-                      ▼
-┌─────────────────────────────────────────────────────┐
-│  브라우저 주소창 자동 변경                            │
-│  https://app.com/?table=orders                      │
-└─────────────────────┬───────────────────────────────┘
-                      ▼
-┌─────────────────────────────────────────────────────┐
-│  이 URL을 복사해서 공유하면                           │
-│  다른 사람도 같은 상태로 접속 가능                     │
-└─────────────────────────────────────────────────────┘
-
-실제 코드에서 사용 예시
-python# 앱 시작 시 URL 파라미터 읽기
-def init_session():
-    url_table = st.query_params.get("table")  # URL에서 읽기
-    
-    if url_table:
-        st.session_state.selected_table = url_table  # 세션에 저장
-
-
-# 사용자가 선택 변경 시 URL 업데이트
-def on_table_change():
-    st.query_params["table"] = st.session_state.selected_table  # URL에 쓰기
-
-간단한 전체 예제
-pythonimport streamlit as st
-
-# 1. URL에서 파라미터 읽기
-current_table = st.query_params.get("table", "default_table")
-
-# 2. selectbox로 선택
-tables = ["users", "orders", "products"]
-selected = st.selectbox("테이블", tables, 
-                        index=tables.index(current_table) if current_table in tables else 0)
-
-# 3. 선택 변경 시 URL 업데이트
-if selected != current_table:
-    st.query_params["table"] = selected
-    st.rerun()
-
-st.write(f"현재 선택: {selected}")
-st.write(f"URL을 복사해서 공유하면 같은 테이블이 선택됩니다!")
-
-요약
-메서드용도예시.get("key")URL에서 읽기st.query_params.get("db")["key"] = valueURL에 쓰기st.query_params["db"] = "sales".from_dict({})전체 교체st.query_params.from_dict({"a": "1"})del ["key"]삭제del st.query_params["db"].clear()전체 삭제st.query_params.clear()
+/* 2. 카드 맨 처음에 오는 요소(첫 번째 제목 등)의 위쪽 여백 제거 */
+.canvas-node-content > :first-child {
+  margin-top: 0 !important;
+}
