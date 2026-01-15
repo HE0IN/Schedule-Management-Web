@@ -1,10 +1,20 @@
-/* 캔버스 내의 H3와 Span 여백 완전 제거 */
+/* 1. 캔버스 내 H3, Span, 일반 p 태그 여백 제거 */
 .canvas-node-content h3,
-.canvas-node-content span {
+.canvas-node-content span,
+.canvas-node-content .markdown-rendered p {
     margin: 0 !important;
     padding: 0 !important;
-    /* span의 경우 상하 마진을 확실히 없애기 위해 아래 속성이 필요합니다 */
-    display: inline-block; 
-    vertical-align: top;
-    line-height: 1.2; /* 줄 간격 때문에 생기는 미세한 공간까지 방지 */
+}
+
+/* 2. 해시태그(.tag)를 포함하고 있는 문단(p)만 예외적으로 위쪽 여백 주기 */
+/* :has() 셀렉터는 '안에 ~를 가진'이라는 뜻입니다. */
+.canvas-node-content .markdown-rendered p:has(.tag) {
+    margin-top: 12px !important;  /* 태그 위쪽을 얼마나 띄울지 조절하세요 */
+    margin-bottom: 4px !important; 
+}
+
+/* 3. 태그 자체의 스타일 (선택사항) */
+.canvas-node-content .tag {
+    display: inline-block;
+    margin-top: 2px;
 }
