@@ -1,14 +1,10 @@
-<span style="color:blue; font-weight: bold; margin-top 0px; display:inline-block; vertical-align : top;"> ※ 쉘 스크립트 : 운영체제 명령어를 순차적으로 기록한 파일로, 일관성 있는 서버 배포 및 환경 설정을 보장하는 표준 자동화 도구</span>
-
-/* 1. 기본 회색 카드 내의 제목(H1~H3) 간격 넓히기 */
-.canvas-node-content h3 {
-  margin-top: 1px !important; /* 제목 위쪽 간격 */
-  margin-bottom: 1px !important;
-  padding-bottom: 1px !important;
-  padding-top: 1px !important;
-}
-
-/* 2. 카드 맨 처음에 오는 요소(첫 번째 제목 등)의 위쪽 여백 제거 */
-.canvas-node-content > :first-child {
-  margin-top: 0 !important;
+/* 캔버스 내의 H3와 Span 여백 완전 제거 */
+.canvas-node-content h3,
+.canvas-node-content span {
+    margin: 0 !important;
+    padding: 0 !important;
+    /* span의 경우 상하 마진을 확실히 없애기 위해 아래 속성이 필요합니다 */
+    display: inline-block; 
+    vertical-align: top;
+    line-height: 1.2; /* 줄 간격 때문에 생기는 미세한 공간까지 방지 */
 }
