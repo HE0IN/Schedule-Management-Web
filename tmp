@@ -119,3 +119,6 @@ LEFT JOIN
 (select `Tag No`, AB_GB from `all_lab_dop입력_d` where 공사번호 = 'sn{sn_project}'
 )F
     """
+
+
+pymysql.err.ProgrammingError: (1064, "You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 119")
