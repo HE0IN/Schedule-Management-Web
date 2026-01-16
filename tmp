@@ -1,20 +1,121 @@
-/* 1. 캔버스 내 H3, Span, 일반 p 태그 여백 제거 */
-.canvas-node-content h3,
-.canvas-node-content span,
-.canvas-node-content .markdown-rendered p {
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-/* 2. 해시태그(.tag)를 포함하고 있는 문단(p)만 예외적으로 위쪽 여백 주기 */
-/* :has() 셀렉터는 '안에 ~를 가진'이라는 뜻입니다. */
-.canvas-node-content .markdown-rendered p:has(.tag) {
-    margin-top: 12px !important;  /* 태그 위쪽을 얼마나 띄울지 조절하세요 */
-    margin-bottom: 4px !important; 
-}
-
-/* 3. 태그 자체의 스타일 (선택사항) */
-.canvas-node-content .tag {
-    display: inline-block;
-    margin-top: 2px;
-}
+    sql = f"""
+SELECT AA.*,(AB_GB)'A/B' 
+FROM
+(select
+        설계관리정보
+        ,ab.`tag no`
+        ,(단위BLOCK)BLOCK
+        ,일정_표
+        ,date_format(최종소요일1,'%Y-%m-%d')최종소요일1
+        ,최종소요월
+        ,date_format(의장시작일,'%Y-%m-%d')의장시작일
+        ,date_format(의장종료일,'%Y-%m-%d')의장종료일
+        ,(stg)STAGE
+        ,재질
+        ,조치항목_표
+        ,자재입고예상
+        ,자재입고예상월
+        ,`대형/소형`
+        ,지연구분
+        ,자외작
+        ,출도구분
+        ,환산수량
+        ,date_format(WO일자,'%Y-%m-%d')WO일자
+        ,case별_LT
+        ,`H/T`
+FROM
+(select * from
+(select `tag no`
+        ,('')BLOCK
+        ,('도래')일정_표
+        ,(wo시납품기준일)최종소요일1
+        ,('발행완')최종소요월
+        ,(실행시작일)의장시작일
+        ,(실행종료일)의장종료일
+        ,('')조치항목_표
+        ,('')자재입고예상
+        ,('')자재입고예상월
+        ,if(dia >= 6,'대형','소형')'대형/소형'
+        ,('')지연구분
+        ,('')자외작
+        ,('출도')출도구분
+        ,('1')환산수량
+        , (`W/O일자`)WO일자
+        ,재질
+        ,('HULL')'H/T'
+from `all_nos_작업량상세현황조회s_d`
+where 순번 is not null 
+and `W/O일자` <> 'none'
+and 개정구분 not in ('폐기','개정')
+)A
+left join
+(select 품명,(case별_조달lt)case별_LT,설계관리정보,단위BLOCK
+from `all_pml_의장bom다운로드_d`)B
+ON A.`tag no` = B.품명
+)ab
+left join
+(select `tag no`,mid(ACTIVITY,10,2)stg from `all_pml_spoolpcs별공정현황s_d`)c
+on ab.`tag no` = c.`tag no` 
+union all
+select
+        `LINE NO`
+        ,`tag no`
+        ,BLOCK
+        ,일정_표
+        ,date_format(최종소요일1,'%Y-%m-%d')최종소요일1
+        ,최종소요월
+        ,date_format(의장시작일,'%Y-%m-%d')의장시작일
+        ,date_format(의장종료일,'%Y-%m-%d')의장종료일
+        ,(stg)STAGE
+        ,재질
+        ,조치항목_표
+        ,자재입고예상
+        ,자재입고예상월
+        ,`대형/소형`
+        ,지연구분
+        ,자외작
+        ,출도구분
+        ,환산수량
+        ,date_format(WO일자,'%Y-%m-%d')WO일자
+        ,(CASE별_조달LT)case별_LT
+        ,('TOP')'H/T'
+FROM
+(select `tag no`
+        ,BLOCK
+        ,('도래')일정_표
+        ,(`납품기준일`)최종소요일1
+        ,('발행완')최종소요월
+        ,case
+              when A3시작일 not in ('none') then date_format(A3시작일,'%Y-%m-%d')
+              when APS시작일 not in ('none','0000-01-01') then date_format(APS시작일,'%Y-%m-%d')
+              else date_format(`12주EPC계획 착수일`,'%Y-%m-%d')
+          end 의장시작일
+          ,case
+              when A3종료일 not in ('none') then date_format(A3종료일,'%Y-%m-%d')
+              when APS종료일 not in ('none','0000-01-01') then date_format(APS종료일,'%Y-%m-%d')
+              else date_format(`12주EPC계획 종료일`,'%Y-%m-%d')
+         end 의장종료일 
+        ,('')조치항목_표
+        ,('')자재입고예상
+        ,('')자재입고예상월
+        ,if(dia >= 6,'대형','소형')'대형/소형'
+        ,('')지연구분
+        ,('')자외작
+        ,('출도')출도구분
+        ,('1')환산수량
+        , (`W/O일`)WO일자
+        ,재질
+        ,CASE별_조달LT
+        ,STG
+        ,`LINE NO`
+from `all_pml_spool공정실적현황_d`
+where 순번 is not null 
+and 프로젝트 = 'sn2688'
+and `W/O일` <> 'none'
+and 폐기 <> '1'
+)A
+)AA
+LEFT JOIN
+(select `Tag No`, AB_GB from `all_lab_dop입력_d` where 공사번호 = 'sn{sn_project}'
+)F
+    """
